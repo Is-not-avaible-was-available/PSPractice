@@ -1,4 +1,4 @@
-package com.scaler.PSPractice.DTOs;
+package com.scaler.PSPractice.ThirdPartyClient.FakeStore.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
