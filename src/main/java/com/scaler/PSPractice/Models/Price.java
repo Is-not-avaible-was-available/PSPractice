@@ -1,4 +1,4 @@
-package com.scaler.PSPractice.models;
+package com.scaler.PSPractice.Models;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-
 @Setter
 @Entity
 @NoArgsConstructor

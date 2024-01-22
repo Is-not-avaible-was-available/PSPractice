@@ -1,4 +1,4 @@
-package com.scaler.PSPractice.DTos;
+package com.scaler.PSPractice.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
-
 @AllArgsConstructor
 public class ExceptionDTO {
     private HttpStatus httpStatus;

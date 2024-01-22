@@ -1,13 +1,11 @@
-package com.scaler.PSPractice.DTos;
+package com.scaler.PSPractice.ThirdParty.dtos;
 
-import com.scaler.PSPractice.models.Category;
-import com.scaler.PSPractice.models.Price;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class GenericProductDTO {
+public class FakeStoreProductDTO {
     private String id;
     private String title;
     private String description;

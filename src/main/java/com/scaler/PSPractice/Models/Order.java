@@ -1,4 +1,4 @@
-package com.scaler.PSPractice.models;
+package com.scaler.PSPractice.Models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -9,12 +9,13 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @Entity(name = "orders")
 public class Order extends BaseModel{
     @ManyToMany
-    @JoinTable(name = "products_orders",
+    @JoinTable(
+            name = "products_orders",
             joinColumns = @JoinColumn(name = "orderId"),
             inverseJoinColumns = @JoinColumn(name = "productId")
     )

@@ -1,12 +1,14 @@
 package com.scaler.PSPractice.Services;
 
-import com.scaler.PSPractice.DTos.GenericProductDTO;
-import com.scaler.PSPractice.Exception.NotFoundException;
-import com.scaler.PSPractice.Mapper.DTOMapper;
+import com.scaler.PSPractice.DTOs.GenericProductDTO;
+import com.scaler.PSPractice.Exceptions.NotFoundException;
+import com.scaler.PSPractice.Mappers.DTOMappers;
+import com.scaler.PSPractice.Models.Category;
+import com.scaler.PSPractice.Models.Price;
+import com.scaler.PSPractice.Models.Product;
+import com.scaler.PSPractice.Repositories.CategoryRepository;
 import com.scaler.PSPractice.Repositories.ProductRepository;
-import com.scaler.PSPractice.models.Category;
-import com.scaler.PSPractice.models.Price;
-import com.scaler.PSPractice.models.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,56 +19,84 @@ import java.util.UUID;
 @Service("selfProductService")
 public class SelfProductService implements ProductService{
     private ProductRepository productRepository;
-
-    public SelfProductService(ProductRepository productRepository){
+    private CategoryRepository categoryRepository;
+    @Autowired
+    public SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository){
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
+
+
+
     @Override
-    public GenericProductDTO findProductById(String id) throws NotFoundException {
+    public GenericProductDTO getProductById(String id) throws NotFoundException {
         Optional<Product> optionalProduct = productRepository.findById(UUID.fromString(id));
+
         if(optionalProduct.isEmpty()){
             throw new NotFoundException("product with id:"+id+", is not found!");
         }
-        Product product = optionalProduct.get();
-        return DTOMapper.productToGenericProductDTO(product);
+        return DTOMappers.productToGenericProductDTO(optionalProduct.get());
     }
 
     @Override
-    public List<GenericProductDTO> findAllProducts() throws NotFoundException {
-        List<Product> products = productRepository.findAll();
-        List<GenericProductDTO>genericProductDTOS = new ArrayList<>();
-        for(Product product:  products){
-            genericProductDTOS.add(DTOMapper.productToGenericProductDTO(product));
+    public List<GenericProductDTO> getAllProducts() throws NotFoundException {
+        List<Product> products =  productRepository.findAll();
+        List<GenericProductDTO> genericProductDTOS = new ArrayList<>();
+        for(Product product:products){
+            genericProductDTOS.add(DTOMappers.productToGenericProductDTO(product));
         }
         return genericProductDTOS;
+
     }
 
     @Override
     public GenericProductDTO createProduct(GenericProductDTO genericProductDTO) {
         Product product = new Product();
-        product.setCategory(new Category(genericProductDTO.getCategory()));
+        Optional<Category> optionalCategory = categoryRepository.findByName(genericProductDTO.getCategory());
+        if(optionalCategory.isEmpty()){
+            Category category = new Category();
+            category.setName(genericProductDTO.getCategory());
+            Category saved = categoryRepository.save(category);
+            product.setCategory(saved);
+        }else{
+            product.setCategory(optionalCategory.get());
+        }
+        Price price = new Price();
+        price.setPrice(genericProductDTO.getPrice());
+        price.setCurrency("Rupee");
+        product.setTitle(genericProductDTO.getTitle());
         product.setDescription(genericProductDTO.getDescription());
         product.setImage(genericProductDTO.getImage());
-        product.setTitle(genericProductDTO.getTitle());
-        product.setPrice(new Price(genericProductDTO.getPrice(), "Rupee"));
-        Product savedProduct =productRepository.save(product);
-        return DTOMapper.productToGenericProductDTO(savedProduct);
+        product.setPrice(price);
+        Product savedProduct = productRepository.save(product);
+        return DTOMappers.productToGenericProductDTO(savedProduct);
     }
 
     @Override
     public GenericProductDTO updateProductById(String id, GenericProductDTO genericProductDTO) throws NotFoundException {
-        Optional<Product>optionalProduct = productRepository.findById(UUID.fromString(id));
+        Optional<Product> optionalProduct = productRepository.findById(UUID.fromString(id));
         if(optionalProduct.isEmpty()){
+
             throw new NotFoundException("product with id:"+id+", is not found!");
         }
         Product product = optionalProduct.get();
-        product.setPrice(new Price(genericProductDTO.getPrice(), "Rupee"));
+        Optional<Category> optionalCategory = categoryRepository.findByName(genericProductDTO.getCategory());
+        if(optionalCategory.isEmpty()){
+            Category category = new Category();
+            category.setName(genericProductDTO.getCategory());
+            Category saved = categoryRepository.save(category);
+            product.setCategory(saved);
+        }else{
+            product.setCategory(optionalCategory.get());
+        }
+        Price price = new Price();
+        price.setPrice(genericProductDTO.getPrice());
+        product.setPrice(price);
         product.setTitle(genericProductDTO.getTitle());
-        product.setImage(genericProductDTO.getImage());
         product.setDescription(genericProductDTO.getDescription());
-        product.setCategory(new Category(genericProductDTO.getCategory()));
+        product.setImage(genericProductDTO.getImage());
         Product savedProduct = productRepository.save(product);
-        return DTOMapper.productToGenericProductDTO(savedProduct);
+        return DTOMappers.productToGenericProductDTO(savedProduct);
     }
 
     @Override
@@ -74,9 +104,8 @@ public class SelfProductService implements ProductService{
         Optional<Product> optionalProduct = productRepository.findById(UUID.fromString(id));
         if(optionalProduct.isEmpty()){
             throw new NotFoundException("product with id:"+id+", is not found!");
-        }else {
-            productRepository.deleteById(UUID.fromString(id));
         }
-        return DTOMapper.productToGenericProductDTO(optionalProduct.get());
+        productRepository.deleteById(UUID.fromString(id));
+        return DTOMappers.productToGenericProductDTO(optionalProduct.get());
     }
 }
