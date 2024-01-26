@@ -20,6 +20,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public GenericProductDTO getProductById(@PathVariable("id") String id) throws NotFoundException {
+        System.out.println("Calling from productController");
         return productService.getProductById(id);
     }
     @GetMapping

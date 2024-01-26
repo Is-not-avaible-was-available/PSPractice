@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -35,6 +36,7 @@ public class FakeStoreProductClient {
         restTemplate.getForEntity(singleProductUrl, FakeStoreProductDTO.class, id);
         FakeStoreProductDTO fakeStoreProductDTO = fakeStoreProductDTOResponseEntity.getBody();
         if(fakeStoreProductDTO==null){
+
             throw new NotFoundException("product with id:"+id+", is not found!");
         }
         return fakeStoreProductDTO;
@@ -72,9 +74,10 @@ public class FakeStoreProductClient {
         RestTemplate restTemplate = restTemplateBuilder.build();
         ResponseEntity<FakeStoreProductDTO> fakeStoreProductDTOResponseEntity =
         restTemplate.exchange(singleProductUrl, HttpMethod.DELETE, null, FakeStoreProductDTO.class, id);
+
         FakeStoreProductDTO fakeStoreProductDTO = fakeStoreProductDTOResponseEntity.getBody();
         if(fakeStoreProductDTO==null){
-            throw new NotFoundException("product with id:"+id+", is not found!");
+            throw new NotFoundException("Product with id:"+id+", is not found!");
         }
         return fakeStoreProductDTO;
     }

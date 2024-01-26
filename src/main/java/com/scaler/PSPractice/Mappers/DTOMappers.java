@@ -4,6 +4,7 @@ import com.scaler.PSPractice.DTOs.CategoryDTO;
 import com.scaler.PSPractice.DTOs.GenericProductDTO;
 import com.scaler.PSPractice.Models.Category;
 import com.scaler.PSPractice.Models.Product;
+import com.scaler.PSPractice.ThirdParty.dtos.FakeStoreProductDTO;
 
 public class DTOMappers {
     public static CategoryDTO categoryToCategoryResponseDTO(Category category){
@@ -21,6 +22,20 @@ public class DTOMappers {
         genericProductDTO.setImage(product.getImage());
         genericProductDTO.setPrice(product.getPrice().getPrice());
         genericProductDTO.setCategory(product.getCategory().getName());
+        return genericProductDTO;
+    }
+
+    public static GenericProductDTO fakeStoreDtoToGenericDTO(FakeStoreProductDTO fakeStoreProductDTO){
+        if(fakeStoreProductDTO==null){
+            return null;
+        }
+        GenericProductDTO genericProductDTO = new GenericProductDTO();
+        genericProductDTO.setId(fakeStoreProductDTO.getId());
+        genericProductDTO.setTitle(fakeStoreProductDTO.getTitle());
+        genericProductDTO.setDescription(fakeStoreProductDTO.getDescription());
+        genericProductDTO.setImage(fakeStoreProductDTO.getImage());
+        genericProductDTO.setPrice(fakeStoreProductDTO.getPrice());
+        genericProductDTO.setCategory(fakeStoreProductDTO.getCategory());
         return genericProductDTO;
     }
 }
