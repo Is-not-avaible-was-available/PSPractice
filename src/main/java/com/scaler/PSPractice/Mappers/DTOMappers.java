@@ -15,6 +15,10 @@ public class DTOMappers {
     }
 
     public static GenericProductDTO productToGenericProductDTO(Product product){
+        if(product==null){
+            return null;
+        }
+        System.out.println("hi from mapper class");
         GenericProductDTO genericProductDTO = new GenericProductDTO();
         genericProductDTO.setId(product.getUuid().toString());
         genericProductDTO.setTitle(product.getTitle());

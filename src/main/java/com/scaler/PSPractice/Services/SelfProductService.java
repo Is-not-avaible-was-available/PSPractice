@@ -32,6 +32,7 @@ public class SelfProductService implements ProductService{
     public GenericProductDTO getProductById(String id) throws NotFoundException {
         Optional<Product> optionalProduct = productRepository.findById(UUID.fromString(id));
 
+        System.out.println("Hi from self product service");
         if(optionalProduct.isEmpty()){
             throw new NotFoundException("product with id:"+id+", is not found!");
         }

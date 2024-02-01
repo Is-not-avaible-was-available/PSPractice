@@ -2,10 +2,13 @@ package com.scaler.PSPractice.Controllers;
 
 import com.scaler.PSPractice.DTOs.GenericProductDTO;
 import com.scaler.PSPractice.Exceptions.NotFoundException;
+import com.scaler.PSPractice.Models.Product;
 import com.scaler.PSPractice.Services.FakeStoreProductService;
 import com.scaler.PSPractice.Services.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -20,6 +23,9 @@ public class ProductControllerTest {
 
 
     private ProductService productServiceMock;
+    @Captor
+    private ArgumentCaptor<Product> productArgumentCaptor;
+
 
     public ProductControllerTest(){
 
@@ -142,4 +148,6 @@ public class ProductControllerTest {
         Assertions.assertEquals(genericProductDTOS, response);
 
     }
+
+
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductController {
     private ProductService productService;
     @Autowired
-    public ProductController(@Qualifier("selfProductService") ProductService productService){
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
         this.productService = productService;
     }
 

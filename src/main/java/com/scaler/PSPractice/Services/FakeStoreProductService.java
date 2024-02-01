@@ -19,9 +19,9 @@ public class FakeStoreProductService implements ProductService{
     }
 
     public GenericProductDTO fakeStoreDtoToGenericDTO(FakeStoreProductDTO fakeStoreProductDTO){
-//        if(fakeStoreProductDTO==null){
-//            return null;
-//        }
+        if(fakeStoreProductDTO==null){
+            return null;
+        }
         GenericProductDTO genericProductDTO = new GenericProductDTO();
         genericProductDTO.setId(fakeStoreProductDTO.getId());
         genericProductDTO.setTitle(fakeStoreProductDTO.getTitle());
@@ -32,10 +32,11 @@ public class FakeStoreProductService implements ProductService{
         return genericProductDTO;
     }
 
-    @Override
+@Override
     public GenericProductDTO getProductById(String id) throws NotFoundException {
         return fakeStoreDtoToGenericDTO(fakeStoreProductClient.getProductById(id));
     }
+
 
     @Override
     public List<GenericProductDTO> getAllProducts() throws NotFoundException {
@@ -48,15 +49,18 @@ public class FakeStoreProductService implements ProductService{
         return genericProductDTOS;
     }
 
+
     @Override
     public GenericProductDTO createProduct(GenericProductDTO genericProductDTO)  {
         return fakeStoreDtoToGenericDTO(fakeStoreProductClient.createProduct(genericProductDTO));
     }
 
+
     @Override
     public GenericProductDTO deleteProductById(String id) throws NotFoundException {
         return fakeStoreDtoToGenericDTO(fakeStoreProductClient.deleteProductById(id));
     }
+
 
     @Override
     public GenericProductDTO updateProductById(String id, GenericProductDTO genericProductDTO) {

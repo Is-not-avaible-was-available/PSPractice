@@ -36,7 +36,7 @@ public class FakeStoreProductClientTest {
 
 
 //    @Test
-//    public void testGetProductById() throws NotFoundException {
+//    public void testGetProductByIdAPI() throws NotFoundException {
 //        RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 //        when(restTemplateBuilderMock.build()).thenReturn(restTemplate);
 //        ResponseEntity<FakeStoreProductDTO> responseMock = new ResponseEntity<>(null, HttpStatus.OK);

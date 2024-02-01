@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class CategoryControllerTest {
@@ -182,5 +183,17 @@ public class CategoryControllerTest {
         List<GenericProductDTO> genericProductDTOSResponse = categoryController.getAllProductsByCategories(categoryIds);
 
         Assertions.assertEquals(genericProductDTOS, genericProductDTOSResponse);
+    }
+
+    @Test
+    public void testGetProductById2() throws NotFoundException {
+        Category category = new Category();
+        UUID uuid = UUID.randomUUID();
+        category.setUuid(uuid);
+        category.setName("Random");
+        when(categoryService.getCategoryById(any(String.class))).thenReturn(category);
+        categoryController.getCategoryById(uuid.toString());
+
+        verify(categoryService).getCategoryById(any(String.class));
     }
 }
